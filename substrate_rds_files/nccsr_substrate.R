@@ -4,7 +4,7 @@
 librarian::shelf(tidyverse, janitor, sf, terra, tmap, here)
 
 # Read in data from primary substrate RDS
-rds.dir <- "/Users/bjorgensen/bathydata/"
+rds.dir <- "/capstone/marinebiomaps/data/rds-files"
 substrate <- readRDS(file.path(rds.dir, "substrate.rds"))
 
 # Ensure it's in a projected CRS (meters)

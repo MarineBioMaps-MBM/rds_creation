@@ -4,7 +4,7 @@
 librarian::shelf(tidyverse, janitor, sf, terra, tmap, here)
 
 # Read in data from primary substrate and biota RDS
-rds.dir <- "/Users/bjorgensen/bathymetry/data/"
+rds.dir <- "/capstone/marinebiomaps/data/rds-files"
 biota <- readRDS(file.path(rds.dir, "biota.rds"))
 
 # Ensure it's in a projected CRS (meters)
