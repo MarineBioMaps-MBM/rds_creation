@@ -3,9 +3,16 @@
 # Load libraries
 librarian::shelf(tidyverse, janitor, sf, terra, tmap, here)
 
-# Read in data from primary substrate and biota RDS
-substrate <- readRDS(here("data", "substrate.rds"))
-biota <- readRDS(here("data", "biota.rds")) 
+# Read in data from primary substrate RDS
+rds.dir <- "/Users/bjorgensen/bathydata/"
+substrate <- readRDS(file.path(rds.dir, "substrate.rds"))
+
+# Ensure it's in a projected CRS (meters)
+substrate <- st_transform(substrate, crs = 32610)
+
+# Calculate area in hectares
+substrate <- substrate |>
+  mutate(area_ha = as.numeric(st_area(Shape)) / 10000)
 
 # Read in MPA boundaries data
 boundary.dir <- "/capstone/marinebiomaps/data/MPA_boundaries"
@@ -14,9 +21,9 @@ mpa_boundaries <- sf::st_read(file.path(boundary.dir, "California_Marine_Protect
 # Clean and transform MPA boundaries data
 mpas <- mpa_boundaries |> 
   clean_names() |> 
-  # select("type", "shortname", "geometry") |> 
-  st_transform(mpas, crs = 4326) |> 
-  st_make_valid()
+  st_transform(st_crs(biota)) |> 
+  st_make_valid() |> 
+  rename(hectares_mpa = hectares)
 
 # Filter to North in the PMEP Data
 north_sub <- substrate |>
@@ -40,6 +47,7 @@ ccsr_substrate <- central_sub_mpa |>
   filter(study_regi == "CCSR") 
 
 # Save the rds file into the outputs folder
-file_path <- file.path(rds_outputs, "ccsr_substrate.rds")
+outputs.dir <- file.path("rds_outputs")
+file_path <- file.path(outputs.dir, "ccsr_substrate.rds")
 saveRDS(ccsr_substrate, file = file_path)
 

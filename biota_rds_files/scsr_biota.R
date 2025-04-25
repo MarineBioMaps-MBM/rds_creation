@@ -4,7 +4,15 @@
 librarian::shelf(tidyverse, janitor, sf, terra, tmap, here)
 
 # Read in data from primary substrate and biota RDS
-biota <- readRDS(here("data", "biota.rds")) 
+rds.dir <- "/Users/bjorgensen/bathymetry/data/"
+biota <- readRDS(file.path(rds.dir, "biota.rds"))
+
+# Ensure it's in a projected CRS (meters)
+biota <- st_transform(biota, crs = 32610)
+
+# Calculate area in hectares
+biota <- biota |>
+  mutate(area_ha = as.numeric(st_area(Shape)) / 10000)
 
 # Read in MPA boundaries data
 boundary.dir <- "/capstone/marinebiomaps/data/MPA_boundaries"
@@ -13,12 +21,9 @@ mpa_boundaries <- sf::st_read(file.path(boundary.dir, "California_Marine_Protect
 # Clean and transform MPA boundaries data
 mpas <- mpa_boundaries |> 
   clean_names() |> 
-  st_transform(mpas, crs = 4326) |> 
-  st_make_valid()
-
-# Filter to North in the PMEP Data
-north_bio <- biota |>
-  filter(pmep_region == "2")
+  st_transform(st_crs(biota)) |> 
+  st_make_valid() |> 
+  rename(hectares_mpa = hectares)
 
 # Filter to Central in the PMEP Data
 central_bio <- biota |>
@@ -29,17 +34,17 @@ south_bio <- biota |>
   filter(pmep_region == "4")
 
 # Intersect the PMEP region data with the mpas data
-north_bio_mpa <- st_intersection(mpas, north_bio)
 central_bio_mpa <- st_intersection(mpas, central_bio)
 south_bio_mpa <- st_intersection(mpas, south_bio)
 
-# # Filter out CCSR MPAs from PMEP data!
-# ccsr_bio_central_filtered <- central_bio_mpa |> 
-#   filter(study_regi == "SCSR") 
-# 
-# # Combine the two df's that have scsr polygons
-# scsr_substrate <- bind_rows(south_sub_mpa, ncsr_substrate_central_filtered)
+# Filter out CCSR MPAs from PMEP data!
+scsr_bio_central_filtered <- central_bio_mpa |>
+  filter(study_regi == "SCSR")
+
+# Combine the two df's that have scsr polygons
+scsr_bio <- bind_rows(south_bio_mpa, scsr_bio_central_filtered)
 
 # Save the rds file into the outputs folder
-file_path <- file.path(rds_outputs, "scsr_bio.rds")
+outputs.dir <- file.path("rds_outputs")
+file_path <- file.path(outputs.dir, "scsr_biota.rds")
 saveRDS(scsr_bio, file = file_path)
