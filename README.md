@@ -8,7 +8,7 @@ A quote from the [California Department of Fish and Wildlife website](https://wi
 
 "For the purposes of MPA planning, a public-private partnership commonly referred to as the MLPA Initiative was established, and the state was split into five distinct regions (four coastal and the San Francisco Bay) each of which had its own MPA planning process." 
 
-These are the 5 study regions utilized by the MBM Team for regional analysis within the state of California. This repository takes the data from the Pacific Marine and Estuarine Partnership (PMEP), and filters it into these regions for use in analysis. 
+These are the 5 study regions utilized by the MBM Team for regional analysis within the state of California. This repository takes the data from the [Pacific Marine and Estuarine Partnership (PMEP)](https://www.pacificfishhabitat.org/data/), and filters it into these regions for use in analysis. 
 
 The use of these .rds files will standardize the filtering processes done by the team, and will also simplify and shorten the code needed for analysis. The use of these .rds files in analysis also prevents lag and long loading time as a result of large nature of the geospatial PMEP files.
 
