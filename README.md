@@ -14,7 +14,9 @@ The use of these .rds files will standardize the filtering processes done by the
 
 ## Data Used
 [Pacific Marine and Estuarine Partnership (PMEP) CMECS Nearshore Substrate Data](https://www.pacificfishhabitat.org/data/nearshore-cmecs-substrate-habitat/)
+
 [Pacific Marine and Estuarine Partnership (PMEP) CMECS Nearshore Biotic Data](https://www.pacificfishhabitat.org/data/nearshore-cmecs-biotic-habitat/)
+
 [California Department of Fish and Wildlife MPA Boundaries Shapefile](https://data-cdfw.opendata.arcgis.com/datasets/CDFW::california-marine-protected-areas-ds582/about)
 
 ## File Contents
