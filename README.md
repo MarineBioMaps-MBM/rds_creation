@@ -8,7 +8,17 @@ A quote from the [California Department of Fish and Wildlife website](https://wi
 
 "For the purposes of MPA planning, a public-private partnership commonly referred to as the MLPA Initiative was established, and the state was split into five distinct regions (four coastal and the San Francisco Bay) each of which had its own MPA planning process." 
 
-These are the 5 study regions utilized by the MBM Team for regional analysis within the state of California. This repository takes the data from the [Pacific Marine and Estuarine Partnership (PMEP)](https://www.pacificfishhabitat.org/data/), and filters it into these regions for use in analysis. 
+These are the 5 study regions utilized by the MBM Team for regional analysis within the state of California. This repository takes the data from the [Pacific Marine and Estuarine Partnership (PMEP)](https://www.pacificfishhabitat.org/data/), and filters it into these regions for use in analysis. These regions are defined as such:
+
+**SCSR** = South Coast Study Region
+
+**NCCSR** = North Central Coast Study Region
+
+**CCSR** = Central Coast Study Region
+
+**NCSR** = North Coast Study Region
+
+**SFBSR** = San Francisco Bay Study Region
 
 The use of these .rds files will standardize the filtering processes done by the team, and will also simplify and shorten the code needed for analysis. The use of these .rds files in analysis also prevents long loading time as a result of the large size of the geospatial PMEP files.
 
@@ -17,7 +27,7 @@ The use of these .rds files will standardize the filtering processes done by the
 
 [Pacific Marine and Estuarine Partnership (PMEP) CMECS Nearshore Biotic Data](https://www.pacificfishhabitat.org/data/nearshore-cmecs-biotic-habitat/)
 
-[California Department of Fish and Wildlife MPA Boundaries Shapefile](https://data-cdfw.opendata.arcgis.com/datasets/CDFW::california-marine-protected-areas-ds582/about)
+[California Department of Fish and Wildlife MPA Boundaries Shapefile](https://data.ca.gov/dataset/california-marine-protected-areas-ds582)
 
 ## File Contents
 
