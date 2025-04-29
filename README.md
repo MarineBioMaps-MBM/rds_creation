@@ -1,6 +1,6 @@
 # .RDS CREATION
 ## Author: Bailey Jørgensen
-### Contributors: Madison Enda, Michelle Yiv
+### Contributors: Madison Enda, Michelle Yiv, Cori Lopazanski, Samantha Stevenson-Karl
 
 The repository that houses the scripts ran to generate .rds files to be used throughout the MarineBioMaps MPA analysis. These files will contain data filtered for each study region, for each dataset. 
 
