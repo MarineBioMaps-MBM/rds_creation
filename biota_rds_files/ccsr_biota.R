@@ -25,22 +25,12 @@ mpas <- mpa_boundaries |>
   st_make_valid() |> 
   rename(hectares_mpa = hectares)
 
-# Filter to North in the PMEP Data
-north_bio <- biota |>
-  filter(pmep_region == "2")
-
 # Filter to Central in the PMEP Data
 central_bio <- biota |>
   filter(pmep_region == "3")
 
-# Filter to Southern in the PMEP Data
-south_bio <- biota |>
-  filter(pmep_region == "4")
-
 # Intersect the PMEP region data with the mpas data
-north_bio_mpa <- st_intersection(mpas, north_bio)
 central_bio_mpa <- st_intersection(mpas, central_bio)
-south_bio_mpa <- st_intersection(mpas, south_bio)
 
 # Filter out CCSR MPAs from PMEP data!
 ccsr_bio <- central_bio_mpa |>

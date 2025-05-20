@@ -14,30 +14,29 @@ substrate <- st_transform(substrate, crs = 32610)
 substrate <- substrate |>
   mutate(area_ha = as.numeric(st_area(Shape)) / 10000)
 
-# Read in MPA boundaries data
-boundary.dir <- "/capstone/marinebiomaps/data/MPA_boundaries"
-mpa_boundaries <- sf::st_read(file.path(boundary.dir, "California_Marine_Protected_Areas_[ds582].shp"))
-
-# Clean and transform MPA boundaries data
-mpas <- mpa_boundaries |> 
+# Make a map of the MLPA Study regions without MPAs
+sr_boundary.dir <- "/capstone/marinebiomaps/data/MLPA_Study_Regions"
+sr_boundaries <- sf::st_read(file.path(sr_boundary.dir, "Marine_Life_Protection_Act_Study_Regions_-_R7_-_CDFW_[ds3178].shp")) |> 
   clean_names() |> 
-  st_transform(st_crs(biota)) |> 
-  st_make_valid() |> 
-  rename(hectares_mpa = hectares)
+  st_transform(st_crs(substrate)) 
+
+ccsr_boundary <- sr_boundaries |> 
+  filter(study_regi == "CCSR")
 
 # Filter to Central in the PMEP Data
 central_sub <- substrate |>
   filter(pmep_region == "Central California")
 
-# Intersect the PMEP region data with the mpas data
-central_sub_mpa <- st_intersection(mpas, central_sub)
-
-# Filter out CCSR MPAs from PMEP data!
-ccsr_substrate <- central_sub_mpa |> 
-  filter(study_regi == "CCSR") 
+# Intersect the PMEP region data with the sr boundaries data
+ccsr_substrate_fullregion <- st_intersection(ccsr_boundary, central_sub)
 
 # Save the rds file into the outputs folder
 outputs.dir <- file.path("rds_outputs")
-file_path <- file.path(outputs.dir, "ccsr_substrate.rds")
-saveRDS(ccsr_substrate, file = file_path)
+file_path <- file.path(outputs.dir, "ccsr_substrate_fullregion.rds")
+saveRDS(ccsr_substrate_fullregion, file = file_path)
+
+
+
+
+
 

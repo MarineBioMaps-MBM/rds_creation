@@ -33,23 +33,18 @@ north_bio <- biota |>
 central_bio <- biota |>
   filter(pmep_region == "3")
 
-# Filter to Southern in the PMEP Data
-south_bio <- biota |>
-  filter(pmep_region == "4")
-
 # Intersect the PMEP region data with the mpas data
 north_bio_mpa <- st_intersection(mpas, north_bio)
 central_bio_mpa <- st_intersection(mpas, central_bio)
-south_bio_mpa <- st_intersection(mpas, south_bio)
 
-# Filter out CCSR MPAs from PMEP data!
+# Filter out NCSR MPAs from PMEP data!
 ncsr_bio_central_filtered <- central_bio_mpa |>
   filter(study_regi == "NCSR")
 
 # Combine the two df's that have ncsr polygons
-ncsr_bio <- bind_rows(south_bio_mpa, ncsr_bio_central_filtered)
+ncsr_bio <- bind_rows(north_bio_mpa, ncsr_bio_central_filtered)
 
 # Save the rds file into the outputs folder
-outputs.dir <- file.path("rds_outputs")
+outputs.dir <- file.path("/capstone/marinebiomaps/data/rds-files")
 file_path <- file.path(outputs.dir, "ncsr_biota.rds")
 saveRDS(ncsr_bio, file = file_path)

@@ -93,7 +93,7 @@ file_path <- file.path(outputs.dir, "biota.rds")
 saveRDS(biota, file = file_path)
 
 # Save the rds of the biota within MPAs
-file_path0 <- file.path(outputs.dir, "biota_in_mpas")
+file_path0 <- file.path(outputs.dir, "biota_in_mpas.rds")
 saveRDS(biota_in_mpas, file = file_path0)
 
 # Save the broad substrate rds file into the outputs folder
@@ -101,35 +101,7 @@ file_path1 <- file.path(outputs.dir, "substrate.rds")
 saveRDS(substrate, file = file_path1)
 
 # Save the rds of the substrate within MPAs
-file_path2 <- file.path(outputs.dir, "substrate_in_mpas")
+file_path2 <- file.path(outputs.dir, "substrate_in_mpas.rds")
 saveRDS(substrate_in_mpas, file = file_path2)
 
 
-
-
-# Generate the RDS files for the outside MPAs analysis
-
-# # Filter out the parts of sub that intersect with mpas
-# north_no_sub <- st_difference(north_sub, mpas)
-# central_no_sub <- st_difference(central_sub, mpas)
-# south_no_sub <- st_difference(south_sub, mpas)
-# 
-# # Combine three sub dfs
-# substrate_outside_mpas <- bind_rows(north_no_sub, central_no_sub, south_no_sub)
-# 
-# # Filter out the parts of bio that intersect with mpas
-# north_no <- st_difference(north_bio, mpas)
-# central_no <- st_difference(central_bio, mpas)
-# south_no <- st_difference(south_bio, mpas)
-# 
-# # Combine three dfs
-# biota_outside_mpas <- bind_rows(north_no, central_no, south_no)
-# 
-# 
-# # Save the rds of biota outside MPAs
-# file_path3 <- file.path(outputs.dir, "biota_outside_mpas")
-# saveRDS(biota_outside_mpas, file = file_path3)
-# 
-# # Save the rds of the substrate outside MPAs
-# file_path4 <- file.path(outputs.dir, "substrate_outside_mpas")
-# saveRDS(substrate_outside_mpas, file = file_path4) 
