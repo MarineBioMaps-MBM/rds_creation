@@ -25,22 +25,12 @@ mpas <- mpa_boundaries |>
   st_make_valid() |> 
   rename(hectares_mpa = hectares)
 
-# Filter to North in the PMEP Data
-north_sub <- substrate |>
-  filter(pmep_region == "Pacific Northwest")
-
 # Filter to Central in the PMEP Data
 central_sub <- substrate |>
   filter(pmep_region == "Central California")
 
-# Filter to Southern in the PMEP Data
-south_sub <- substrate |>
-  filter(pmep_region == "Southern California Bight")
-
 # Intersect the PMEP region data with the mpas data
-north_sub_mpa <- st_intersection(mpas, north_sub)
 central_sub_mpa <- st_intersection(mpas, central_sub)
-south_sub_mpa <- st_intersection(mpas, south_sub)
 
 # Filter out NCCSR MPAs from PMEP data!
 nccsr_substrate <- central_sub_mpa |> 
