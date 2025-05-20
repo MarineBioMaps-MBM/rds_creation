@@ -14,16 +14,16 @@ substrate <- st_transform(substrate, crs = 32610)
 substrate <- substrate |>
   mutate(area_ha = as.numeric(st_area(Shape)) / 10000)
 
-# Read in MPA boundaries data
-boundary.dir <- "/capstone/marinebiomaps/data/MPA_boundaries"
-mpa_boundaries <- sf::st_read(file.path(boundary.dir, "California_Marine_Protected_Areas_[ds582].shp"))
-
-# Clean and transform MPA boundaries data
-mpas <- mpa_boundaries |> 
+# Make a map of the MLPA Study regions without MPAs
+sr_boundary.dir <- "/capstone/marinebiomaps/data/MLPA_Study_Regions"
+sr_boundaries <- sf::st_read(file.path(sr_boundary.dir, "Marine_Life_Protection_Act_Study_Regions_-_R7_-_CDFW_[ds3178].shp")) |> 
   clean_names() |> 
   st_transform(st_crs(substrate)) |> 
-  st_make_valid() |> 
-  rename(hectares_mpa = hectares)
+  st_make_valid()
+
+# Filter to scsr
+scsr_boundary <- sr_boundaries |> 
+  filter(study_regi == "SCSR")
 
 # Filter to Central in the PMEP Data
 central_sub <- substrate |>
@@ -34,19 +34,21 @@ south_sub <- substrate |>
   filter(pmep_region == "Southern California Bight")
 
 # Intersect the PMEP region data with the mpas data
-central_sub_mpa <- st_intersection(mpas, central_sub)
-south_sub_mpa <- st_intersection(mpas, south_sub)
-
-# Filter out SCSR MPAs from PMEP data!
-scsr_substrate_central_filtered <- central_sub_mpa |> 
-  filter(study_regi == "SCSR") 
+central_sub_scsr <- st_intersection(scsr_boundary, central_sub)
+south_sub_scsr <- st_intersection(scsr_boundary, south_sub)
 
 # Combine the two df's that have scsr polygons
-scsr_substrate <- bind_rows(south_sub_mpa, scsr_substrate_central_filtered)
+scsr_substrate_fullregion <- bind_rows(south_sub_scsr, central_sub_scsr)
 
 # Save the rds file into the outputs folder
 outputs.dir <- file.path("/capstone/marinebiomaps/data/rds-files")
-file_path <- file.path(outputs.dir, "scsr_substrate.rds")
-saveRDS(scsr_substrate, file = file_path)
+file_path <- file.path(outputs.dir, "scsr_substrate_fullregion.rds")
+saveRDS(scsr_substrate_fullregion, file = file_path)
+
+
+
+
+
+
 
 
